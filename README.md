@@ -10,6 +10,7 @@
     1.1. [文件操作](#11-文件操作)
     1.2. [文本操作](#12-文本操作)
     1.3. [目录操作](#13-目录操作)
+    1.4. [SSH、系统信息和网络操作](#14-SSH、系统信息和网络操作)
 
 # 1. 基础操作
 
@@ -853,6 +854,236 @@ mkdir dirname
 
 ```bash
 pwd
+```
+
+## 1.4. SSH、系统信息和网络操作
+
+<table>
+   <tr>
+      <td><a href="#a-bg">bg</a></td>
+      <td><a href="#b-cal">cal</a></td>
+      <td><a href="#c-date">date</a></td>
+      <td><a href="#d-df">df</a></td>
+      <td><a href="#e-dig">dig</a></td>
+      <td><a href="#f-du">du</a></td>
+      <td><a href="#g-fg">fg</a></td>
+      <td><a href="#h-finger">finger</a></td>
+      <td><a href="#i-kill">kill</a></td>
+      <td><a href="#j-killall">killall</a></td>
+   </tr>
+   <tr>
+      <td><a href="#k-last">last</a></td>
+      <td><a href="#l-man">man</a></td>
+      <td><a href="#m-passwd">passwd</a></td>
+      <td><a href="#n-ping">ping</a></td>
+      <td><a href="#o-ps">ps</a></td>
+      <td><a href="#p-quota">quota</a></td>
+      <td><a href="#q-scp">scp</a></td>
+      <td><a href="#r-ssh">ssh</a></td>
+      <td><a href="#s-top">top</a></td>
+      <td><a href="#t-uname">uname</a></td>
+   </tr>
+   <tr>
+      <td><a href="#u-uptime">uptime</a></td>
+      <td><a href="#v-w">w</a></td>
+      <td><a href="#w-wget">wget</a></td>
+      <td><a href="#x-whoami">whoami</a></td>
+      <td><a href="#y-whois">whois</a></td>
+   </tr>
+</table>
+
+### a. `bg`
+
+列出已停止或在后台运行的作业；恢复在后台已停止的作业。
+
+### b. `cal`
+
+显示日历。
+
+### c. `date`
+
+显示当前的日期和时间。
+
+### d. `df`
+
+显示磁盘使用情况。
+
+### e. `dig`
+
+获取域名的 DNS 信息。
+
+```bash
+dig domain
+```
+
+### f. `du`
+
+显示文件或目录的磁盘使用情况。有关此命令的详细信息查看[链接](http://www.linfo.org/du.html)。
+
+```bash
+du [option] [filename|directory]
+```
+
+选项：
+
+- `-h` （人类可读）以千字节 (K)、兆字节 (M) 和千兆字节 (G) 显示输出。
+- `-s` （摘要）输出目录的总磁盘空间和子目录的简报。
+
+实例：
+
+```bash
+du -sh pictures
+1.4M pictures
+```
+
+### g. `fg`
+
+将最近的后台作业放到前台运行。
+
+### h. `finger`
+
+显示用户的信息。
+
+```bash
+finger username
+```
+
+### i. `kill`
+
+杀死 （结束）给定 ID 的进程
+
+```bash
+kill PID
+```
+
+### j. `killall`
+
+使用名称来杀死一组进程。
+
+```bash
+killall processname
+```
+
+### k. `last`
+
+列出指定用户的过去登入信息。
+
+```bash
+last yourUsername
+```
+
+### l. `man`
+
+显示指定命令的手册。
+
+```bash
+man command
+```
+
+### m. `passwd`
+
+允许现在登入用户更改它的密码。
+
+### n. `ping`
+
+Ping 主机并输出结果。
+
+```bash
+ping host
+```
+
+### o. `ps`
+
+列出进程。
+
+```bash
+ps -u yourusername
+```
+
+### p. `quota`
+
+显示你的磁盘配额是多少。
+
+
+```bash
+quota -v
+```
+
+### q. `scp`
+
+在本地主机和远程主机之间或两台远程主机之间传输文件。
+
+*从本地主机复制到远程主机*
+
+```bash
+scp source_file user@host:directory/target_file
+```
+
+*从远程主机复制到本地主机*
+
+```bash
+scp user@host:directory/source_file target_file
+scp -r user@host:directory/source_folder farget_folder
+```
+
+此命令还接受一个可用于连接到特定端口的选项 `-P`。
+
+```bash
+scp -P port user@host:directory/source_file target_file
+```
+
+### r. `ssh`
+
+ssh (SSH 客户端) 是一个在远程机器上登录和执行命令的程序。
+
+```bash
+ssh user@host
+```
+
+此命令还接受一个可用于连接到特定端口的选项 `-p`。
+
+```bash
+ssh -p port user@host
+```
+
+### s. `top`
+
+显示当前活动的进程。
+
+### t. `uname`
+
+显示内核信息。
+
+```bash
+uname -a
+```
+
+### u. `uptime`
+
+显示当前的正常运行时间。
+
+### v. `w`
+
+显示谁在线。
+
+### w. `wget`
+
+下载文件。
+
+```bash
+wget file
+```
+
+### x. `whoami`
+
+返回现在登入用户的用户名。
+
+### y. `whois`
+
+获取域名的 whois 信息。
+
+```bash
+whois domain
 ```
 
 ## 贡献
