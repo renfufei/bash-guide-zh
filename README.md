@@ -8,6 +8,7 @@
 
   1. [基础操作](#1-基础操作)
     1.1. [文件操作](#11-文件操作)
+    1.2. [文本操作](#12-文本操作)
 
 # 1. 基础操作
 
@@ -324,6 +325,494 @@ touch filename
 ```bash
 $ touch trick.md
 ```
+
+## 1.2. 文本操作
+
+<table>
+    <tr>
+      <td><a href="#a-awk">awk</a></td>
+      <td><a href="#b-cut">cut</a></td>
+      <td><a href="#c-echo">echo</a></td>
+      <td><a href="#d-egrep">egrep</a></td>
+      <td><a href="#e-fgrep">fgrep</a></td>
+      <td><a href="#f-fmt">fmt</a></td>
+      <td><a href="#g-grep">grep</a></td>
+      <td><a href="#h-nl">nl</a></td>
+      <td><a href="#i-sed">sed</a></td>
+      <td><a href="#j-sort">sort</a></td>
+   </tr>
+   <tr>
+      <td><a href="#k-tr">tr</a></td>
+      <td><a href="#l-uniq">uniq</a></td>
+      <td><a href="#m-wc">wc</a></td>
+   </tr>
+</table>
+
+### a. `awk`
+
+awk is the most useful command for handling text files. It operates on an entire file line by line. By default it uses whitespace to separate the fields. The most common syntax for awk command is
+
+awk 是处理文本文件时最有用的命令。它一行一行地在整个文件上运行。默认情况下，它使用空格分隔字段。awk 命令最常用的语法是
+
+```bash
+awk '/search_pattern/ { action_to_take_if_pattern_matches; }' file_to_parse
+```
+
+让我们看下面的文件`/etc/passwd`。以下是此文件包含的示例数据：
+
+```
+root:x:0:0:root:/root:/usr/bin/zsh
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+```
+
+现在, 让我们从这个文件中只获得用户名。`-F` 指定我们将在哪个基础上分隔字段。在本示例是 `:`。`{ print $1 }` 表示输出出第一个匹配字段。
+
+```bash
+awk -F':' '{ print $1 }' /etc/passwd
+```
+
+运行上述命令后，将得到以下输出。
+
+```
+root
+daemon
+bin
+sys
+sync
+```
+
+有关如何使用 `awk` 的更多详细信息，查看[链接](https://www.cyberciti.biz/faq/bash-scripting-using-awk)。
+
+### b. `cut`
+
+从文件的每行中删除部分
+
+*example.txt*
+
+```
+red riding hood went to the park to play
+```
+
+*采用空格作为分隔符，显示第 2、7 和 9 列*
+
+```bash
+cut -d " " -f2,7,9 example.txt
+```
+
+```bash
+riding park play
+```
+
+### c. `echo`
+
+显示一行文本
+
+*显示 "Hello World"*
+
+```bash
+echo Hello World
+```
+
+```bash
+Hello World
+```
+
+*隔行显示 "Hello World" 的各单词*
+
+```bash
+echo -ne "Hello\nWorld\n"
+```
+
+```bash
+Hello
+World
+```
+
+### d. `egrep`
+
+输出匹配模式的行 - 扩展表达式（'grep -E' 的别名）
+
+Print lines matching a pattern - Extended Expression (alias for: 'grep -E')
+
+*example.txt*
+
+```
+Lorem ipsum
+dolor sit amet,
+consetetur
+sadipscing elitr,
+sed diam nonumy
+eirmod tempor
+invidunt ut labore
+et dolore magna
+aliquyam erat, sed
+diam voluptua. At
+vero eos et
+accusam et justo
+duo dolores et ea
+rebum. Stet clita
+kasd gubergren,
+no sea takimata
+sanctus est Lorem
+ipsum dolor sit
+amet.
+```
+
+*显示有 “Lorem” 或有 “dolor” 的行*
+
+```bash
+egrep '(Lorem|dolor)' example.txt
+```
+
+或者
+
+```bash
+grep -E '(Lorem|dolor)' example.txt
+```
+
+```bash
+Lorem ipsum
+dolor sit amet,
+et dolore magna
+duo dolores et ea
+sanctus est Lorem
+ipsum dolor sit
+```
+
+### e. `fgrep`
+
+输出匹配模式的行 - 固定模式匹配（'grep -F' 的别名）
+
+*example.txt*
+
+```
+Lorem ipsum
+dolor sit amet,
+consetetur
+sadipscing elitr,
+sed diam nonumy
+eirmod tempor
+foo (Lorem|dolor)
+invidunt ut labore
+et dolore magna
+aliquyam erat, sed
+diam voluptua. At
+vero eos et
+accusam et justo
+duo dolores et ea
+rebum. Stet clita
+kasd gubergren,
+no sea takimata
+sanctus est Lorem
+ipsum dolor sit
+amet.
+```
+
+*在 example.txt 中查找确切的字符串 '(Lorem|dolor)'*
+
+```bash
+fgrep '(Lorem|dolor)' example.txt
+or
+grep -F '(Lorem|dolor)' example.txt
+```
+
+```bash
+foo (Lorem|dolor)
+```
+
+### f. `fmt`
+
+简单的最佳文本格式化程序
+
+*实例： example.txt（1 行）*
+
+```
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+```
+
+*将 example.txt 输出为每行 20 个字符的宽度*
+
+```bash
+cat example.txt | fmt -w 20
+```
+
+```bash
+Lorem ipsum
+dolor sit amet,
+consetetur
+sadipscing elitr,
+sed diam nonumy
+eirmod tempor
+invidunt ut labore
+et dolore magna
+aliquyam erat, sed
+diam voluptua. At
+vero eos et
+accusam et justo
+duo dolores et ea
+rebum. Stet clita
+kasd gubergren,
+no sea takimata
+sanctus est Lorem
+ipsum dolor sit
+amet.
+```
+
+### g. `grep`
+
+查找文件内的文本。可以使用 grep 搜索一个或多个正则表达式匹配的文本行，并仅输出匹配的行。
+
+```bash
+grep pattern filename
+```
+
+实例：
+
+```bash
+$ grep admin /etc/passwd
+_kadmin_admin:*:218:-2:Kerberos Admin Service:/var/empty:/usr/bin/false
+_kadmin_changepw:*:219:-2:Kerberos Change Password Service:/var/empty:/usr/bin/false
+_krb_kadmin:*:231:-2:Open Directory Kerberos Admin Service:/var/empty:/usr/bin/false
+```
+
+您也可以使用 `-i` 选项强制 grep 忽略字母大小写。`-r` 可用于搜索指定目录下的所有文件，例如：
+
+```bash
+$ grep -r admin /etc/
+```
+
+还有 `-w` 仅搜索单词。有关 `grep` 的更多细节，查看[链接](https://www.cyberciti.biz/faq/grep-in-bash)。
+
+### h. `nl`
+
+计算文件内容行号。
+
+*example.txt*
+
+```
+Lorem ipsum
+dolor sit amet,
+consetetur
+sadipscing elitr,
+sed diam nonumy
+eirmod tempor
+invidunt ut labore
+et dolore magna
+aliquyam erat, sed
+diam voluptua. At
+vero eos et
+accusam et justo
+duo dolores et ea
+rebum. Stet clita
+kasd gubergren,
+no sea takimata
+sanctus est Lorem
+ipsum dolor sit
+amet.
+```
+
+*显示 example.txt 内容和行号*
+
+```bash
+nl -s". " example.txt
+```
+
+```bash
+     1. Lorem ipsum
+     2. dolor sit amet,
+     3. consetetur
+     4. sadipscing elitr,
+     5. sed diam nonumy
+     6. eirmod tempor
+     7. invidunt ut labore
+     8. et dolore magna
+     9. aliquyam erat, sed
+    10. diam voluptua. At
+    11. vero eos et
+    12. accusam et justo
+    13. duo dolores et ea
+    14. rebum. Stet clita
+    15. kasd gubergren,
+    16. no sea takimata
+    17. sanctus est Lorem
+    18. ipsum dolor sit
+    19. amet.
+```
+
+### i. `sed`
+
+用于过滤和转换文本的流编辑器。
+
+*example.txt*
+
+```
+Hello This is a Test 1 2 3 4
+```
+
+*用连字符替换所有空格*
+
+```bash
+sed 's/ /-/g' example.txt
+```
+
+```bash
+Hello-This-is-a-Test-1-2-3-4
+```
+
+*用“d”替换所有数字*
+
+```bash
+sed 's/[0-9]/d/g' example.txt
+```
+
+```bash
+Hello This is a Test d d d d
+```
+
+### j. `sort`
+
+对文本文件的行排序。
+
+*example.txt*
+
+```bash
+f
+b
+c
+g
+a
+e
+d
+```
+
+*排序 example.txt*
+
+```bash
+sort example.txt
+```
+
+```bash
+a
+b
+c
+d
+e
+f
+g
+```
+
+*随机排序 example.txt*
+
+```bash
+sort example.txt | sort -R
+```
+
+```bash
+b
+f
+a
+c
+d
+g
+e
+```
+
+### k. `tr`
+
+转换或删除字符。
+
+*example.txt*
+
+```
+Hello World Foo Bar Baz!
+```
+
+*将所有小写字母转换为大写字母*
+
+```bash
+cat example.txt | tr 'a-z' 'A-Z'
+```
+
+```bash
+HELLO WORLD FOO BAR BAZ!
+```
+
+*将所有空格转换为换行符*
+
+```bash
+cat example.txt | tr ' ' '\n'
+```
+
+```bash
+Hello
+World
+Foo
+Bar
+Baz!
+```
+
+### l. `uniq`
+
+报告或省略重复行。
+
+*example.txt*
+
+```bash
+a
+a
+b
+a
+b
+c
+d
+c
+```
+
+*只显示 example.txt 的唯一行（首先你需要排序，否则看不到重叠）*
+
+```bash
+sort example.txt | uniq
+```
+
+```bash
+a
+b
+c
+d
+```
+
+*显示每行的唯一项，并告诉我找到了多少个实例*
+
+```bash
+sort example.txt | uniq -c
+```
+
+```bash
+    3 a
+    2 b
+    2 c
+    1 d
+```
+
+### m. `wc`
+
+告诉你一个文件中有多少行，单词和字符。
+
+```bash
+wc filename
+```
+
+实例：
+
+```bash
+$ wc demo.txt
+7459   15915  398400 demo.txt
+```
+
+其中，`7459` 是行数，`15915` 是单词数量，`398400` 是字符数量。
 
 ## 贡献
 
