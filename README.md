@@ -28,21 +28,23 @@ export
 
 ```bash
 $ export
-AWS_HOME=/Users/adnanadnan/.aws
-LANG=en_US.UTF-8
-LC_CTYPE=en_US.UTF-8
-LESS=-R
+declare -x CLASSPATH=".:/usr/local/jdk1.8.0_74/lib:/usr/local/jdk1.8.0_74/jre/lib:"
+declare -x HISTCONTROL="ignoredups"
+declare -x HISTSIZE="1000"
+declare -x JRE_HOME="/usr/local/jdk1.8.0_74/jre"
+declare -x LANG="en_US.UTF-8"
+declare -x PATH="/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
 
-$ echo $AWS_HOME
-/Users/adnanadnan/.aws
+$ echo $PATH
+/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
 ```
 
 ### b. `whatis`
 
 显示用户命令、系统调用、库函数或其他在手册页面中的描述。
 
-```bash
-whatis something
+```
+whatis 需要查询的名称
 ```
 
 实例：
@@ -50,14 +52,19 @@ whatis something
 ```bash
 $ whatis bash
 bash (1)             - GNU Bourne-Again SHell
+
+
+$ whatis whatis
+whatis (1)           - display manual page descriptions
+
 ```
 
 ### c. `whereis`
 
 使用系统自动构建的数据库来搜索可执行文件、源文件和手册页面。
 
-```bash
-whereis name
+```
+whereis 可执行命令名称
 ```
 
 实例：
@@ -65,6 +72,10 @@ whereis name
 ```bash
 $ whereis php
 /usr/bin/php
+
+whereis javac
+javac: /usr/local/jdk1.8.0_74/bin/javac
+
 ```
 
 ### d. `which`
@@ -80,6 +91,10 @@ which program_name
 ```bash
 $ which php
 /c/xampp/php/php
+
+which javac
+/usr/local/jdk1.8.0_74/bin/javac
+
 ```
 
 ### e. `clear`
